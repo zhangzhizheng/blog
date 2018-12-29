@@ -1,0 +1,123 @@
+<!Doctype html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>我的博客</title>
+	<style type="text/css">
+		#register,#login{
+			width:300px;
+			height:300px;
+			/*外边距，两个盒子之间的间距*/
+			margin: 100px 100px 200px 300px;
+			
+		}
+		
+		html,body{
+			width: 100%;
+			height: 100%;
+			background-color: skyblue;
+		}
+		
+		form{
+			/*background-color: pink;*/
+			height:215px;
+			display:flex;
+			/*更改主轴方向为垂直*/
+			flex-direction: column;
+			justify-content: space-around;
+			align-items: center;
+		}
+		input{
+			width: 80%;
+			height: 40px;
+		}
+		#blogname{
+		  width:300px;
+		  height: 60px;
+		  margin:0px 70px 70px 0px;
+		}
+		#rejister{
+		position:relative;
+		}
+		.wrapper{
+			position:absolute;
+			top:0;
+			left:0;
+			bottom:0;
+			right:0;
+			margin:auto;
+			width:300px;
+			height:300px;
+		}
+	</style>
+</head>
+<body>
+<div id="blogname">
+<h1>极客博客</h1>
+</div>
+
+	 <div id="register">
+	 	
+	 	<div class="wrapper">
+	 	<h1>注册博客</h1>
+	 		<form action="Register" method="POST">
+	 		<input type="text" name="username" id="un" placeholder="请输入你的用户名">
+	 		
+	 		<input type="password" name="password" id="pwd" placeholder="请输入你的密码">
+	 		<input type="password" name="pwdagain" id="pwdagain" placeholder="请再次输入你的密码">
+	 		<input type="text" name="nickname" id="nickname" placeholder="请输入昵称">
+	 		<input type="text" placeholder="请输入邮箱" id="email">
+	 		<input type="submit" value="注册">
+	 		
+	 		<a href="login.html">已经有账号，去登录</a>
+	 	</form>
+	 	</div>
+	 </div>
+	 
+	 
+	 <script>
+	 	/*获取注册按钮  
+	 		通过选择器获取标记
+	 		document.querySelector('选择器');
+	 		eg:document.querySelector('#pwdagain');
+	 	*/
+	 	var submitBtn = document.querySelector('[type="submit"]');
+	 	/*
+	 		监听submitBtn的点击事件
+	 	*/
+	 	submitBtn.onclick = function(e){
+	 		/*
+	 			阻止提交
+	 			e.preventDefault();
+	 		*/
+	 		/*用户名和密码不能为空,并且两次密码要一致*/
+	 		
+	 		var email = document.querySelector('#email').value;
+	 			/* 设合法的邮箱地址格式为“字段1”@“字段2”.“字段3” 
+		 		字段1为数字和任意字母的组合，中间可以有不连续出现的”.”，”-“，”_”出现 
+		 		字段2只允许为字母和数字的组合 
+		 		字段3只允许为字母 */
+	 		var reg =/^([a-zA-Z0-9]+[-_\.]?)+@[a-zA-Z0-9]+\.[a-z]+$/;	
+	 		var username = document.querySelector('#un').value;
+	 		var password1 = document.querySelector('#pwd').value;
+	 		var password2 = document.querySelector('#pwdagain').value;
+	 		if(reg.test(email))
+	 		{
+
+ 				
+ 				if (username.length == 0 || password1.length == 0 || password1 != password2||email.length==0){
+ 					alert("邮箱格式正确,但用户名或密码有错");
+ 					e.preventDefault();		 			
+ 		 			}
+
+ 			}else {
+ 				alert("邮箱格式不正确");
+ 				e.preventDefault();
+	 			
+ 			}
+
+	 	}
+	 	
+	 </script>
+</body>
+</html>

@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>后台管理</title>
+        <style type="text/css">
+            *{
+                margin: 0;
+            }
+            #top{
+                height: 60px;
+                background-color: skyblue;
+                /*左边的内边距*/
+                padding-left: 30px;
+                
+                /*弹性容器*/
+                display: flex;
+                /*内容在主轴两边*/
+                justify-content: space-between;
+                /*交叉轴居中*/
+                align-items: center;
+            }
+
+            #top>div{
+                /*右边的外边距*/
+                margin-right: 20px;
+            }
+
+            #bottom{
+                height:30px;
+                background-color: skyblue;
+                /*弹性容器*/
+                display:flex;
+                /*主轴居中*/
+                justify-content: center;
+                /*交叉轴居中*/
+                align-items: center;
+            }
+
+
+            /*菜单和内容*/
+            #main{
+                display:flex;
+                height:400px
+                background-color: yellowgreen;
+
+            }
+            .left{
+                width: 30%;
+                height:300px;
+                /*background-color: yellowgreen;*/
+                
+            }
+            .left>ul{
+                /*清除列表前的圆点*/
+                list-style: none;
+            }
+
+            .left>ul>li{
+                width:80%;
+                height:40px;
+                background-color: gray;
+                margin: 10px;
+
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+            .left>ul>li:hover{
+                background-color: orange;
+            }
+            .right{
+                width:70%;
+                height:400px;
+                /*background-color: purple;*/
+                display:flex;
+                flex-direction:column;
+                align-items: center;
+            }
+            
+            .right>table{
+                width:80%;
+            }
+            .right>table,.right td,.right th{
+                border: 1px solid black;
+                /*单元格合并*/
+                border-collapse: collapse;
+                text-align: center;
+            }
+            /*.right 中的tr 中的第3个td*/
+            .right tr>td:nth-of-type(3){
+                /*内容水平居中*/
+                text-align: center;
+            }
+            button{
+            	width:60px;
+            	height:30px;
+                margin:5px;
+            }
+
+        </style>
+    </head>
+    <body>
+        <div id="top">
+            <h1>极客博客后台管理</h1>
+            <div>
+                <p>
+                <marquee>
+                                                 厚德、博学、求是、创新
+                </marquee>
+                </p>
+                <p id="time">时间:</p>
+            </div>
+        </div>
+
+        <div id="main">
+            <div class="left">
+                <ul>
+    
+                </ul>
+            </div>
+            <div class="right">
+            	<div style="width:100%; display: flex;flex-direction:row-reverse">
+            	
+            	
+            		<a href="addBlog.html">添加博客</a>
+            	</div>
+            	<table>
+                    <tr>
+                        <th>编号</th>
+                        <th>标题</th>
+                        <th>发布时间</th>
+                        <th>操作</th>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    <hr/>
+        <div id="bottom">
+    
+           <p>
+                <marquee>
+                  第七组：张治政 苏展鹏 韩明建 陈华超 付阳阳 张波波 胡月红 陈真
+                </marquee>
+                </p>
+        </div>
+
+        <script type="text/javascript">
+            window.onload = function(){
+            	// 设置时间(每隔1s更改一次)
+                setInterval(function(){
+                    // 获取当前时间
+                    var date = new Date();
+                    // 、获取年
+                    var y = date.getFullYear();
+                    // 注意：getMonth() 获取到的月份是从 0 开始的
+                    var m = date.getMonth() + 1;
+                    // 获取日
+                    var d = date.getDate();
+                    // 获取小时
+                    var h = date.getHours();
+                    // 获取分钟
+                    var mintues = date.getMinutes();
+                    // 获取秒
+                    var s = date.getSeconds();
+
+                    var str = y + "-" + m + "-" + d + "    " + h + ":" + mintues + ":" + s;
+                    document.querySelector("#time").innerHTML = str;
+
+                }, 1000);
+            	
+            	var tagArray;
+            	var tag;
+            	/* 获取博客类型列表 */
+            	var xhr = new XMLHttpRequest();
+            	xhr.onload = function(e){
+            		tagArray = JSON.parse(this.responseText);
+            		tag = tagArray[0];
+            		/* 设置右侧博客列表的类型名称 */
+
+            		var ul = document.querySelector("ul");
+            		tagArray.forEach(function(obj,index){
+            			var li = document.createElement("li");
+            			li.innerHTML = obj.tagName;
+            			ul.appendChild(li);	
+            		});
+            		addClickEventForLi();
+            		showRightTable();
+            	};
+            	xhr.open("post","TagList");
+            	xhr.send();
+            	
+            	/* 根据当前选中的类型更新右侧列表 */
+            	function showRightTable(){
+            		console.log(tag);
+            		var table = document.querySelector("table");
+            		var xhr = new XMLHttpRequest();
+                	xhr.onload = function(e){
+                		var blogArr = JSON.parse(this.responseText);
+                		table.innerHTML = "";
+                        // 3.在table中添加tr，在tr中添加th
+                        var tr = document.createElement("tr");
+                        table.appendChild(tr);
+
+                        var th1 = document.createElement("th");
+                        th1.innerHTML = "编号";
+                        tr.appendChild(th1);
+                        var th2 = document.createElement("th");
+                        th2.innerHTML = "标题";
+                        tr.appendChild(th2);
+                        var th3 = document.createElement("th");
+                        th3.innerHTML = "发布时间";
+                        tr.appendChild(th3);
+                        var th4 = document.createElement("th");
+                        th4.innerHTML = "操作";
+                        tr.appendChild(th4);
+
+                        // 4.根据后台返回的数据，动态添加tr，td  
+                        blogArr.forEach(function(obj,index){
+                            var tr = document.createElement("tr");
+                            table.appendChild(tr);
+
+                            // 在tr中添加4个td
+                            var td1 = document.createElement("td");
+                            td1.innerHTML = obj.id;
+                            tr.appendChild(td1);
+                            var td2 = document.createElement("td");
+                            td2.innerHTML = obj.title;
+                            tr.appendChild(td2);
+                            var td3 = document.createElement("td");
+                            td3.innerHTML = obj.lastTime;
+                            tr.appendChild(td3);
+                            var td4 = document.createElement("td");
+                            tr.appendChild(td4);
+                            var btn1 = document.createElement("button");
+                            btn1.innerHTML = "修改";
+                            btn1.onclick = function(){
+                            	location.href = "editBlog.html?title=" + encodeURI(obj.title) + "&tag=" + tag.id + "&content=" + encodeURI(obj.content) + "&id=" + obj.id;	
+                            };
+                            td4.appendChild(btn1);
+                            var btn2 = document.createElement("button");
+                            btn2.onclick = function(b){
+                            	return function(){
+                            		deleteBlog(b);
+                            	};
+                            }(obj);
+                            
+                            btn2.innerHTML = "删除";
+                            td4.appendChild(btn2);
+                        });
+                	};
+                	xhr.open("get","GetBlogList?id=" + tag.id);
+                	xhr.send();
+            	}
+            	
+            	function deleteBlog(blog){
+            		/* 获取博客类型列表 */
+                	var xhr = new XMLHttpRequest();
+                	xhr.onload = function(e){
+                		console.log(JSON.parse(this.responseText));
+                		if(this.responseText == "1"){
+                			/* 重新刷新页面 */
+                			showRightTable();
+                		}
+                	};
+                	xhr.open("post","DeleteBlog?id=" + blog.id);
+                	xhr.send();
+            	}
+            	
+            	/* 添加li的点击事件 */
+            	function addClickEventForLi(){
+            		// 点击左边菜单，更改右边表格中的内容
+                    // 利用事件的委托来控制每一个li的点击事件
+                    var ul = document.querySelector(".left>ul");
+                    var array = Array.from(ul.children);
+                    console.log(array);
+                    ul.onclick = function(e){
+                        // e.target:事件的触发者
+                        // e.currentTarget:事件的处理者
+                        // 当事件的触发者和事件的处理者不相同的时候，说明我们点击的是li
+                        if (e.target != e.currentTarget) {
+                        	var index = array.indexOf(e.target);
+                            tag = tagArray[index];
+                            showRightTable();
+                        }
+                    };
+            	}
+            	
+            	
+            };
+
+
+            
+
+
+
+        </script>
+    </body>
+</html>

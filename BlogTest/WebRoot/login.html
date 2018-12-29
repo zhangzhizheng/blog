@@ -1,0 +1,99 @@
+<!Doctype html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>我的博客登录</title>
+	<style type="text/css">
+		/*
+			书写css文件
+		*/
+		#login{
+			width:300px;
+			height:300px;
+			/*背景颜色*/
+			background-color: skyblue;
+			/*外边距，两个盒子之间的间距*/
+			margin: 10px;
+		}
+		
+		html,body{
+			width: 100%;
+			height: 100%;
+			background-color: skyblue;
+		}
+		body{
+		
+		}
+		
+		form{
+			/*background-color: pink;*/
+			height:215px;
+			display:flex;
+			/*更改主轴方向为垂直*/
+			flex-direction: column;
+			justify-content: space-around;
+			align-items: center;
+		}
+		#blogname{
+		  width:300px;
+		  height: 60px;
+		  margin:0px 70px 70px 0px;
+		}
+		input{
+			width: 80%;
+			height: 40px;
+		}
+		#login{
+		padding:0px 0px 0px 500px;
+		}
+	</style>
+</head>
+<body>
+	<!--
+		登录页面：
+	 
+		页面中展示的内容 需要书写在body标记中
+		
+	 -->
+	 <div id="blogname">
+      <h1>极客博客</h1>
+     </div>
+	 <div id="login">
+	 	<h1>登录博客</h1>
+	 	<form action="Login" method="POST">
+	 		<input type="text" name="username" id="un" placeholder="请输入你的用户名">
+	 		
+	 		<input type="password" name="password" id="pwd" placeholder="请输入你的密码">
+	 		
+	 		<input type="submit" value="登录">
+	 		<a href="register.html">没有账号，去注册</a>
+	 	</form>
+	 </div>
+	 
+	 
+	 <script>
+	 	/*获取登录按钮  
+	 		通过选择器获取标记
+	 		document.querySelector('选择器');
+	 		eg:document.querySelector('#pwdagain');
+	 	*/
+	 	var submitBtn = document.querySelector('[type="submit"]');
+	 	/*
+	 		监听submitBtn的点击事件
+	 	*/
+	 	submitBtn.onclick = function(e){
+	 		/*
+	 			阻止提交
+	 			e.preventDefault();
+	 		*/
+	 		/*用户名和密码不能为空*/
+	 		var username = document.querySelector('#un').value;
+	 		var password1 = document.querySelector('#pwd').value;
+	 		if (username.length == 0 || password1.length == 0){
+	 			e.preventDefault();
+	 		}
+	 	}
+	 	
+	 </script>
+</body>
+</html>
